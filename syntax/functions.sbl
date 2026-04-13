@@ -1,0 +1,25 @@
+// Functions use the `function` keyword and follow a similar syntax structure to
+// similar modern programming languages.
+//
+// Function definitions contain a function name, type-annotated parameters, a return type, and a function body.
+// Exceptions: `self` parameter and `mut self` parameter do not require type annotation
+//             functions that return `void` do not require annotated return types
+
+// A function that has no parameters, no return type, and an empty body.
+// This function implicitly returns void.
+//
+function do_nothing() {}
+
+// A function that takes parameters but returns nothing
+// This function implicitly returns void.
+//
+function increment(mut x: int) {
+    x++;
+}
+
+// A function that takes parameters and returns a value
+//
+function add(x: int, y: int) -> int {
+    return x + y;
+}
+

@@ -1,0 +1,28 @@
+// Operators can be overloaded for structs and enums
+
+struct Point {
+    x: int;
+    y: int;
+
+    function distance(self) -> f64 {
+        return math.hypot(x, y);
+    }
+
+    operator + (self, other: Self) -> Self {
+        x := self.x + other.x;
+        y := self.y + other.y;
+        return Point(x, y);
+    }
+
+    operator < (self, other: Self) -> bool {
+        return self.distance() < other.distance();
+    }
+
+    operator > (self, other: Self) -> bool {
+        return self.distance() > other.distance();
+    }
+
+    operator = (self, other: Self) -> bool {
+        return !(self < other || self > other);
+    }
+}

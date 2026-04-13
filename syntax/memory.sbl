@@ -1,0 +1,71 @@
+// Memory and move semantics are a core part of Darcy.
+
+// Values can be moved into variables with the `move` operator. When a value is moved into another variable,
+// the original variable is then freed and invalidated. The compiler will not allow you to access said variable.
+
+let x = 1;
+let y = move x;
+
+print(x); // this will emit a compile-time error.
+
+// Values can also be moved into functions. Function parameters that can take moved values are any parameters that are
+// not pointers. When a value is moved into a function, the original variable is then freed and invalidated. The
+// compiler will not allow you to access said variable.
+
+function increment(mut x: int) {
+    x++;
+}
+
+let y = 1;
+increment(move y);
+
+print(y); // this will emit a compile-time error.
+
+// This pattern is common when moving large data structures, especially ones that contain pointers to avoid deepy copy.
+
+function print_string_and_exit(s: String) {
+    io.println(s);
+    process.exit(0);
+}
+
+import io;
+let x = String.from("Hello, Darcy!");
+
+// Consider the following
+
+    type String = ArrayList<Character>;
+
+    ...
+
+    struct ArrayList<T, A = alloc.Default> {
+        mut data: *mut T;
+        mut count: usize;
+        mut cap: usize;
+    }
+
+    ...
+
+// To avoid a deep copy and avoid passing by a pointer, we can move ownership of the string.
+
+print_string_and_exit(move x);
+
+    // Total space this operation takes: 0 bytes.
+
+// If you did not move, then it would simply shallow copy the `String` struct.
+
+print_string_and_exit(x);
+
+    // Copies the ArrayList, including the pointer, count, and capacity.
+    // Total space this operation takes: 24 bytes.
+
+// Another alternative is to pass a pointer (in this case a non-nullible reference)
+
+function print_string_and_exit(s: &String) {
+    io.println(s);
+    process.exit(0);
+}
+
+print_string_and_exit(&s);
+
+    // Total space this operation takes: 8 bytes;
+
