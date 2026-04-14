@@ -1,0 +1,7 @@
+// Buckets are a lot like specifying specific allocators to use, but they behave more like Arenas.
+
+use alloca;
+
+astBucket := Bucket(alloca.gpa);
+astTree := new AstTree with astBucket; // typeof astTree = `*AstTree`
+

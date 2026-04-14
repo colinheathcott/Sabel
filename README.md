@@ -8,6 +8,20 @@ A systems-level programming language that aims to be a refreshing and cleaner ap
 2. Capable type system that allows for intuitive encapsulation, composition, overloading, and good support for various kinds of abstract data types.
 3. Modern and clean syntax that prioritizes readability of code rather than expressiveness while remaining familair to programmers of all backgrounds.
 
+## Structure
+
+1. **ast**: contains all code related to the structure of the Abstract Syntax Tree itself.
+    - *expr.rs*: contains data structures and methods for AST expressions
+    - *stmt.rs*: contains data structures and methods for AST statements
+    - *format.rs*: contains methods for formatting the AST to be printed
+    - *tree.rs*: contains high level organizational structures and methods for the AST
+2. **common**: contains basic and shared data structures and methods that are used around the crate.
+    - *handle.rs*: contains the `Handle` data structure and it's methods
+    - *file.rs*: contains `File`, `Position`, and `Substring` structures
+    - *diagnostic.rs*: contains all diganostic-related structures and methods, including the `Diag` structure
+    - *operator.rs*: contains all operators and the `Operator` sutrcture
+    - *token.rs*: contains the token structure and variants
+
 ## Implementation
 
 ### File & Position Handling
@@ -34,3 +48,9 @@ Sabel uses an on-demand byte-based scanner that returns `Result<Token, Diag>` to
 6. ~~floating point literals~~
 7. raw string literals
 8. interpolated string literals
+
+### Operator
+
+Operators are implemented in a very C-like manner to avoid oddities with Rust enums and bitflags. Operators are instances of the `Operator` struct, which exposes methods like `is()` for determining if an arbitrary operator has a certain flag.
+
+Operators of any kind are contained as compile-time constants in `operator::ops` and their bitflags are in `operator::flags`.

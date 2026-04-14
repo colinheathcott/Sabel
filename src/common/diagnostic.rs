@@ -40,7 +40,7 @@ pub struct DiagKindInfo {
     pub level: DiagLevel,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 /// Any kind of diagnostic that might be emitted by the compiler.
 pub enum DiagKind {
     InternalError,
@@ -72,7 +72,7 @@ impl DiagKind {
 // MARK: diagnostic
 // ------------------------------------------------------------------------------------------------------------------ //
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 /// Represents a diagnostic that should be emitted to the user when compilation is complete (or aborted).
 /// Contains information about the kind of diagnostic, position of the diagnostic, and a message.
 pub struct Diag {
